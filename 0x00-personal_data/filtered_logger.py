@@ -34,4 +34,4 @@ class RedactingFormatter(logging.Formatter):
         obfuscated_msg = filter_datum(self.fields,
                                       self.REDACTION, log_msg, self.SEPARATOR)
         record.msg = obfuscated_msg
-        return super().format(record)
+        return super(RedactingFormatter, self).format(record)
