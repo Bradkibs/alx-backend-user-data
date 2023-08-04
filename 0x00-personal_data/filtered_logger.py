@@ -14,3 +14,24 @@ def filter_datum(fields: List[str], redaction: str, message: str,
         message = re.sub(r'(?<={0}{1}=)[^{0}]+'.format(separator, field),
                          redaction, message)
     return message
+
+
+class RedactingFormatter(logging.Formatter):
+    """ Redacting Formatter class
+        """
+
+    REDACTION = "***"
+    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    SEPARATOR = ";"
+
+    def __init__(self, fields):
+        super(RedactingFormatter, self).__init__(self.FORMAT)
+        self.fields = fields
+
+    def format(self, record: logging.LogRecord) -> str:
+        """Method of filtering values and formatting them"""
+        log_msg = record.getMessage()
+        obfuscated_msg = filter_datum(self.fields,
+                                      self.REDACTION, log_msg, self.SEPARATOR)
+        record.msg = obfuscated_msg
+        return super().format(record)
