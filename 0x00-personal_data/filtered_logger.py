@@ -7,6 +7,9 @@ import re
 from typing import List
 
 
+PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
+
+
 def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
     """A function that returns the log message obfuscated"""
@@ -35,3 +38,20 @@ class RedactingFormatter(logging.Formatter):
                                       self.REDACTION, log_msg, self.SEPARATOR)
         record.msg = obfuscated_msg
         return super().format(record)
+
+
+def get_logger() -> logging.Logger:
+    """Logging INFO level and should not propagate messages to
+    other loggers"""
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(logging.INFO)
+
+    formatter = RedactingFormatter(list(PII_FIELDS))
+
+    stream_handler.setFormatter(formatter)
+    logger.addHandler(stream_handler)
+    return logger
