@@ -55,3 +55,38 @@ def get_logger() -> logging.Logger:
     stream_handler.setFormatter(formatter)
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """ function to return the connector of the database"""
+    username = os.environ.get('PERSONAL_DATA_DB_USERNAME', 'root')
+    host = os.environ.get('PERSONAL_DATA_DB_HOST', 'localhost')
+    database = os.environ.get('PERSONAL_DATA_DB_NAME' '')
+    password = os.environ.get('PERSONAL_DATA_DB_PASSWORD', '')
+
+    mydb = mysql.connector.connect(
+        host=host,
+        user=username,
+        password=password,
+        database=database
+    )
+    return mydb
+
+
+def main():
+    """main
+    """
+    db = get_db()
+    logger = get_logger()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    fields = cursor.column_names
+    for row in cursor:
+        message = "".join("{}={}; ".format(k, v) for k, v in zip(fields, row))
+        logger.info(message.strip())
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
