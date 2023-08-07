@@ -30,3 +30,9 @@ def stats() -> str:
 def unauth_endpoint():
     """called when someone accesses unauthorized enpoint"""
     abort(401)
+
+
+@app_views.route('/forbidden/', strict_slashes=False)
+def forbidden_endpoint():
+    """called when someone accesses unauthorized enpoint"""
+    abort(403)
