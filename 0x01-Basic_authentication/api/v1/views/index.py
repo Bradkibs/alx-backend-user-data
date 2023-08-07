@@ -34,5 +34,5 @@ def unauth_endpoint():
 
 @app_views.route('/forbidden/', strict_slashes=False)
 def forbidden_endpoint():
-    """called when someone accesses unauthorized enpoint"""
+    """called when someone accesses unauthorized endpoint"""
     abort(403)
