@@ -19,6 +19,9 @@ class Auth:
             for element in excluded_paths:
                 if element[-1] == '/':
                     new_excluded_path.append(element[:-1])
+                if element[-1] == '*':
+                    if new_path.startswith(element[:-1]):
+                        return False
 
             if new_path not in new_excluded_path:
                 return True
