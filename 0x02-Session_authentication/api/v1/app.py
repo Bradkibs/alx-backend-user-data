@@ -42,7 +42,7 @@ def before_request() -> str:
                 abort(403, description="Forbidden")
             if auth.authorization_header(request) and \
                auth.session_cookie(request):
-                return None, abort(401)
+                return None, abort(401, description="Unauthorized")
             auth_user = auth.current_user(request)
             request.current_user = auth_user
 
