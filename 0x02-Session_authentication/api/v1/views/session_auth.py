@@ -5,6 +5,7 @@ from flask import request, jsonify, make_response
 from api.v1.views import app_views
 from models.user import User
 import os
+from typing import Tuple
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
@@ -32,3 +33,17 @@ def login_view():
         resp = make_response(jsonify(user.to_json()))
         resp.set_cookie(os.getenv('SESSION_NAME', '_my_session_id'), sess)
         return resp
+
+
+@app_views.route(
+    '/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def logout() -> Tuple[str, int]:
+    """DELETE /api/v1/auth_session/logout
+    Return:
+      - An empty JSON object.
+    """
+    from api.v1.app import auth
+    is_destroyed = auth.destroy_session(request)
+    if not is_destroyed:
+        abort(404)
+    return jsonify({})
