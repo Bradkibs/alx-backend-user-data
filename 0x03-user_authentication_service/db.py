@@ -33,7 +33,6 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """saves the user to the db if all requirements are passed"""
-        if isinstance(email, str) and isinstance(hashed_password, str):
             try:
                 user = User(email=email, hashed_password=hashed_password)
                 self._session.add(user)
@@ -44,7 +43,7 @@ class DB:
             return user
 
     def find_user_by(self, **kwargs) -> User:
-        """Finds a user based on a set of filters.
+        """Finds and returns a user based on the filters passed.
         """
         fields, values = [], []
         for key, value in kwargs.items():
