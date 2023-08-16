@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-
+from typing import TypeVar
 from user import Base, User
 
 
@@ -30,7 +30,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> User:
+    def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
         """saves the user to the db if all requirements are passed"""
         try:
             if isinstance(email, str) and isinstance(hashed_password, str):
@@ -41,4 +41,4 @@ class DB:
 
         except Exception as exp:
             self._session.rollback()
-            retun None
+            return None
