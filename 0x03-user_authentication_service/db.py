@@ -39,4 +39,5 @@ class DB:
                 return user
 
             except Exception as exp:
-                return None
+                self._session.rollback()
+                raise exp
