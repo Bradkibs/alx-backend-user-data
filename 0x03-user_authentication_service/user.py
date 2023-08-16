@@ -12,7 +12,7 @@ Base = declarative_base()
 class User(Base):
     """A class that models a user"""
     __tablename__ = 'users'
-    id = Column(Integer, primary_key=True, nullable=False)
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
     email = Column(String(250), nullable=False)
     hashed_password = Column(String(250), nullable=False)
     session_id = Column(String(250), nullable=True)
