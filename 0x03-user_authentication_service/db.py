@@ -31,7 +31,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """saves the user to the db if all requirements are passed"""
         if isinstance(email, str) and isinstance(hashed_password, str):
             try:
@@ -44,7 +44,7 @@ class DB:
                 self._session.rollback()
                 raise exp
 
-    def find_user_by(self, **kwargs) -> User:
+    def find_user_by(self, **kwargs):
         """returns the first user it matches or throws errors"""
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
