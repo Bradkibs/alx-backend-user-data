@@ -32,8 +32,13 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """saves the user to the db if all requirements are passed"""
-        if isinstance(email, str) and isinstance(hashed_password, str):
-            user = User(email=email, hashed_password=hashed_password)
-            self._session.add(user)
-            self._session.commit()
-            return user
+        try:
+            if isinstance(email, str) and isinstance(hashed_password, str):
+                user = User(email=email, hashed_password=hashed_password)
+                self._session.add(user)
+                self._session.commit()
+                return user
+
+        except Exception as exp:
+            self._session.rollback()
+            raise exp
