@@ -30,7 +30,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """saves the user to the db if all requirements are passed"""
         if isinstance(email, str) and isinstance(hashed_password, str):
             try:
