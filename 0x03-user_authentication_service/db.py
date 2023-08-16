@@ -41,4 +41,4 @@ class DB:
 
         except Exception as exp:
             self._session.rollback()
-            raise exp
+            retun None
