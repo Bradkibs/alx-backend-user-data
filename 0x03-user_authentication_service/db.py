@@ -44,7 +44,7 @@ class DB:
                 self._session.rollback()
                 raise exp
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """returns the first user it matches or throws errors"""
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
