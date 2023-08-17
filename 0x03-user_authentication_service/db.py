@@ -33,6 +33,7 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """saves the user to the db if all requirements are passed"""
+        user = None
         try:
             user = User(email=email, hashed_password=hashed_password)
             self._session.add(user)
@@ -62,4 +63,3 @@ class DB:
     def update_user(self, user_id: int, **kwargs):
         """Updates the user with attributes passed on kwargs
         if the user id matches the one passed"""
-
