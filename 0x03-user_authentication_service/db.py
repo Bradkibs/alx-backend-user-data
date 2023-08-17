@@ -37,7 +37,7 @@ class DB:
             user = User(email=email, hashed_password=hashed_password)
             self._session.add(user)
             self._session.commit()
-        except Exception as exp:
+        except Exception:
             self._session.rollback()
             user = None
         return user
@@ -58,3 +58,8 @@ class DB:
         if result is None:
             raise NoResultFound()
         return result
+
+    def update_user(self, user_id: int, **kwargs):
+        """Updates the user with attributes passed on kwargs
+        if the user id matches the one passed"""
+
